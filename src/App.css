@@ -1,0 +1,43 @@
+.App {
+  text-align: left;
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.room1 {
+  background: black;
+  padding: 10px;
+  border: 1px solid chocolate;
+  border-radius: 8px;
+  margin: 8px;
+  width: max-content;
+  height: min-content;
+}
+
+.room2 {
+  background: black;
+  padding: 8px;
+  border: 1px solid chocolate;
+  border-radius: 8px;
+  margin: 8px;
+  width: max-content;
+  height: min-content;
+}
+
+.conferenceRoom {
+  background: black;
+  padding: 10px;
+  border: 1px solid chocolate;
+  border-radius: 8px;
+  margin: 8px;
+  width: max-content;
+  height: min-content;
+}
