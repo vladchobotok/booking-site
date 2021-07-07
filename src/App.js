@@ -11,6 +11,10 @@ function MakeButton(props) {
 
 class Rooms extends React.Component{
 
+    handleOnClick(id) {
+        console.log('main on click')
+    }
+
     renderButton(id){
         let buttonText;
         switch (id) {
@@ -35,7 +39,7 @@ class Rooms extends React.Component{
             <MakeButton
                 id={id}
                 text={buttonText}
-                onClick={() => this.props.onClick()}
+                onClick={() => this.handleOnClick(id)}
             />
         );
     }
