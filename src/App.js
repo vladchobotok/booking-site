@@ -1,18 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import './App.css';
 
-function MakeButton(props) {
-    return (
-        <button className="table" onClick={props.onClick} id={props.id} >
-            {props.text}
-        </button>
-    );
-}
+const Form = () => (
+    <div>
+        <form>
+            <label>
+                Name:
+                <input type="text" name="name" />
+            </label>
+            <label>
+                Phone:
+                <input type="tel" name="phone" />
+            </label>
+            <label>
+                Start time of booking:
+                <input type="datetime-local" name="startTimeOfBooking" />
+            </label>
+            <label>
+                End time of booking:
+                <input type="datetime-local" name="endTimeOfBooking" />
+            </label>
+            <input type="submit" value="Send" />
+        </form>
+    </div>
+)
 
 class Rooms extends React.Component{
 
     handleOnClick(id) {
-        console.log('main on click')
+        return (
+            <Form/>
+        );
     }
 
     renderButton(id){
@@ -36,11 +54,9 @@ class Rooms extends React.Component{
                 buttonText = "Table " + id;
         }
         return (
-            <MakeButton
-                id={id}
-                text={buttonText}
-                onClick={() => this.handleOnClick(id)}
-            />
+            <button className="table" onClick={this.handleOnClick.bind(false, id)} id={id} >
+            {buttonText}
+            </button>
         );
     }
 
@@ -73,38 +89,10 @@ class Rooms extends React.Component{
 
 class App extends React.Component{
 
-    handleClick(){
-            return(
-                <div>
-                    <form>
-                        <label>
-                            Name:
-                            <input type="text" name="name" />
-                        </label>
-                        <label>
-                            Phone:
-                            <input type="tel" name="phone" />
-                        </label>
-                        <label>
-                            Start time of booking:
-                            <input type="datetime-local" name="startTimeOfBooking" />
-                        </label>
-                        <label>
-                            End time of booking:
-                            <input type="datetime-local" name="endTimeOfBooking" />
-                        </label>
-                        <input type="submit" value="Send" />
-                    </form>
-                </div>
-            );
-    }
-
     render() {
             return (
                 <div className="App">
-                    <Rooms>
-                        onClick={() => this.handleClick()}
-                    </Rooms>
+                    <Rooms/>
                 </div>
             );
     }
