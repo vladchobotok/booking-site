@@ -1,39 +1,52 @@
-import React, { useState } from "react";
+import React from "react";
 import './App.css';
 
-const Form = () => (
-    <div>
-        <form>
-            <label>
-                Name:
-                <input type="text" name="name" />
-            </label>
-            <label>
-                Phone:
-                <input type="tel" name="phone" />
-            </label>
-            <label>
-                Start time of booking:
-                <input type="datetime-local" name="startTimeOfBooking" />
-            </label>
-            <label>
-                End time of booking:
-                <input type="datetime-local" name="endTimeOfBooking" />
-            </label>
-            <input type="submit" value="Send" />
-        </form>
-    </div>
-)
+const Form = ({open}) => {
+    if(open)
+    {
+        return (
+            <div>
+                <form className="forms">
+                    <label>
+                        Name:
+                        <input type="text" name="name"/>
+                    </label>
+                    <label>
+                        Phone:
+                        <input type="tel" name="phone"/>
+                    </label>
+                    <label>
+                        Start time of booking:
+                        <input type="datetime-local" name="startTimeOfBooking"/>
+                    </label>
+                    <label>
+                        End time of booking:
+                        <input type="datetime-local" name="endTimeOfBooking"/>
+                    </label>
+                    <input type="submit" value="Send"/>
+                </form>
+            </div>
+        );
+    }
+    return null;
+}
 
 class Rooms extends React.Component{
 
-    handleOnClick(id) {
-        return (
-            <Form/>
-        );
+    constructor(props) {
+        super(props);
+        this.state = {
+            buttons: Array(6).fill(false)
+        };
     }
 
-    renderButton(id){
+    handleClick = (id) => {
+        let buttons = this.state.buttons.slice();
+        buttons[id-1] = !buttons[id-1];
+        this.setState({buttons});
+    }
+
+    MakeButton = (id) => {
         let buttonText;
         switch (id) {
             case 1:
@@ -54,9 +67,10 @@ class Rooms extends React.Component{
                 buttonText = "Table " + id;
         }
         return (
-            <button className="table" onClick={this.handleOnClick.bind(false, id)} id={id} >
-            {buttonText}
-            </button>
+            <div>
+                <input type="button" value={buttonText} onClick={() => this.handleClick(id)}/>
+                <Form open={this.state.buttons[id-1]}/>
+            </div>
         );
     }
 
@@ -66,21 +80,21 @@ class Rooms extends React.Component{
                 <div className="room1">
                     <h5>Room 1</h5>
                     <div className="room1-button-row1">
-                        {this.renderButton(1)}
-                        {this.renderButton(2)}
+                        {this.MakeButton(1)}
+                        {this.MakeButton(2)}
                     </div>
                     <div className="room1-button-row2">
-                        {this.renderButton(3)}
-                        {this.renderButton(4)}
+                        {this.MakeButton(3)}
+                        {this.MakeButton(4)}
                     </div>
                 </div>
                 <div className="room2">
                     <h5>Room 2</h5>
-                    {this.renderButton(5)}
+                    {this.MakeButton(5)}
                 </div>
                 <div className="conferenceRoom">
                     <h5>Conference Room</h5>
-                    {this.renderButton(6)}
+                    {this.MakeButton(6)}
                 </div>
             </div>
         );
@@ -90,11 +104,11 @@ class Rooms extends React.Component{
 class App extends React.Component{
 
     render() {
-            return (
-                <div className="App">
-                    <Rooms/>
-                </div>
-            );
+        return (
+            <div className="App">
+                <Rooms/>
+            </div>
+        );
     }
 }
 

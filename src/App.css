@@ -41,3 +41,15 @@
   width: max-content;
   height: min-content;
 }
+.forms {
+  background: black;
+  padding: 10px;
+  border: 1px solid chocolate;
+  border-radius: 8px;
+  margin: 8px;
+  width: max-content;
+  height: min-content;
+  display: flex;
+  flex-direction: column;
+  font-size: 15px;
+}
