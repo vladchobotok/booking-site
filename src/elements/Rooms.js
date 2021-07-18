@@ -3,16 +3,13 @@ import * as roomsConstants from "../dictionary/roomsConstants";
 import firebase from "firebase";
 import {RoomBookingForm} from "./RoomBookingForm";
 
-export class Rooms extends React.PureComponent{
-    constructor(props) {
-        super(props);
-        this.state = {
-            selectedTable: 0,
-            name: '',
-            phone: '',
-            startTimeOfBooking: '',
-            endTimeOfBooking: '',
-        };
+export class Rooms extends React.PureComponent {
+    state = {
+        selectedTable: 0,
+        name: '',
+        phone: '',
+        startTimeOfBooking: '',
+        endTimeOfBooking: '',
     }
 
     handleChange = ({target: {value, id}}) => {
@@ -22,40 +19,53 @@ export class Rooms extends React.PureComponent{
         })
     }
 
-    handleSubmit = () => {
-        const {name, phone, startTimeOfBooking, endTimeOfBooking} = this.state;
-        const db = firebase.database()
-        db.ref(name).push(phone);
-        alert("data was written to db");
-        db.ref(name).push(startTimeOfBooking, endTimeOfBooking);
+    handleSubmit = (event) => {
+        event.preventDefault()
+        try {
+            const {selectedTable, name, phone, startTimeOfBooking, endTimeOfBooking} = this.state;
+            if (!startTimeOfBooking) {
+                alert('need to select start')
+                return false
+            }
+            firebase.database().ref('booking/table_' + selectedTable + '/' + startTimeOfBooking).push({
+                name,
+                phone,
+                startTimeOfBooking,
+                endTimeOfBooking
+            })
+        } catch (e) {
+            console.error(e)
+        }
+        return false
     }
 
     handleClick = (id) => {
-        if(id !== this.state.selectedTable) {
-            this.setState({
-                selectedTable: id,
-                name: '',
-                phone: '',
-                startTimeOfBooking: '',
-                endTimeOfBooking: '',
-            });
-        }
+        if (id === this.state.selectedTable) return false
+
+        this.setState({
+            selectedTable: id,
+            name: '',
+            phone: '',
+            startTimeOfBooking: '',
+            endTimeOfBooking: '',
+        });
     }
 
     MakeButton = (id) => {
         return (
             <div>
-                <input type="button" value={roomsConstants.DICT_ROOMS[id-1].title} onClick={() => this.handleClick(id)}/>
+                <input type="button" value={roomsConstants.DICT_ROOMS[id - 1].title}
+                       onClick={() => this.handleClick(id)}/>
                 <RoomBookingForm open={id === this.state.selectedTable}
-                    handleChange={this.handleChange} handleSubmit={this.handleSubmit}
+                                 handleChange={this.handleChange} handleSubmit={this.handleSubmit}
                 />
             </div>
         );
     }
 
-    render(){
+    render() {
         console.log(this.state);
-        return(
+        return (
             <div>
                 <div className="room1">
                     <h5>Room 1</h5>

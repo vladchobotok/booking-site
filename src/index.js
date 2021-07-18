@@ -4,17 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import firebase from 'firebase/app';
-
-const firebaseConfig = {
-    apiKey: "AIzaSyCfLoOlxx_4aN6q0nEUfNF9cAD7TywBJGw",
-    authDomain: "booking-site-8f94a.firebaseapp.com",
-    databaseURL: "https://booking-site-8f94a-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "booking-site-8f94a",
-    storageBucket: "booking-site-8f94a.appspot.com",
-    messagingSenderId: "301353529949",
-    appId: "1:301353529949:web:a37d89c34095871c0e93b4",
-    measurementId: "G-STFPBPGFS3"
-}
+import {firebaseConfig} from "./dictionary/configs";
 
 firebase.initializeApp(firebaseConfig);
 
