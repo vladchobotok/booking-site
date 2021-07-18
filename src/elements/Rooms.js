@@ -7,7 +7,6 @@ export class Rooms extends React.PureComponent{
     constructor(props) {
         super(props);
         this.state = {
-            tableFormsState: Array(6).fill(false),
             selectedTable: 0,
             name: '',
             phone: '',
@@ -31,17 +30,17 @@ export class Rooms extends React.PureComponent{
     }
 
     handleClick = (id) => {
-        this.setState({selectedTable: id});
-        let buttons = this.state.tableFormsState.slice();
-        buttons[id-1] = !buttons[id-1];
-        this.setState({tableFormsState: buttons});
+        if(id !== this.state.selectedTable)
+        {
+            this.setState({selectedTable: id});
+        }
     }
 
     MakeButton = (id) => {
         return (
             <div>
                 <input type="button" value={roomsConstants.DICT_ROOMS[id-1].title} onClick={() => this.handleClick(id)}/>
-                <RoomBookingForm open={this.state.tableFormsState[id-1]}
+                <RoomBookingForm open={id === this.state.selectedTable}
                     handleChange={this.handleChange} handleSubmit={this.handleSubmit}
                 />
             </div>
