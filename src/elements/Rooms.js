@@ -26,13 +26,19 @@ export class Rooms extends React.PureComponent{
         const {name, phone, startTimeOfBooking, endTimeOfBooking} = this.state;
         const db = firebase.database()
         db.ref(name).push(phone);
+        alert("data was written to db");
         db.ref(name).push(startTimeOfBooking, endTimeOfBooking);
     }
 
     handleClick = (id) => {
-        if(id !== this.state.selectedTable)
-        {
-            this.setState({selectedTable: id});
+        if(id !== this.state.selectedTable) {
+            this.setState({
+                selectedTable: id,
+                name: '',
+                phone: '',
+                startTimeOfBooking: '',
+                endTimeOfBooking: '',
+            });
         }
     }
 

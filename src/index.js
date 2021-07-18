@@ -6,13 +6,14 @@ import reportWebVitals from './reportWebVitals';
 import firebase from 'firebase/app';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyD3SBUxGhfiT32GAwmFGppucXLWGNUs25A",
-    authDomain: "booking-site-74e64.firebaseapp.com",
-    databaseURL: "https://booking-site-74e64-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "booking-site-74e64",
-    storageBucket: "booking-site-74e64.appspot.com",
-    messagingSenderId: "529027238095",
-    appId: "1:529027238095:web:da09e5e855e32cdec04fba"
+    apiKey: "AIzaSyCfLoOlxx_4aN6q0nEUfNF9cAD7TywBJGw",
+    authDomain: "booking-site-8f94a.firebaseapp.com",
+    databaseURL: "https://booking-site-8f94a-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "booking-site-8f94a",
+    storageBucket: "booking-site-8f94a.appspot.com",
+    messagingSenderId: "301353529949",
+    appId: "1:301353529949:web:a37d89c34095871c0e93b4",
+    measurementId: "G-STFPBPGFS3"
 }
 
 firebase.initializeApp(firebaseConfig);
