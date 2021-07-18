@@ -1,4 +1,6 @@
-default export class RoomBookingForm extends React.PureComponent{
+import React from "react";
+
+export class RoomBookingForm extends React.PureComponent{
     render() {
         if (!this.props.open) {
             return null

@@ -1,8 +1,10 @@
+import React from "react";
+
+import firebase from "firebase";
 import * as roomsConstants from "../dictionary/roomsConstants";
-import firebase from "../../firebase.json";
 import {RoomBookingForm} from "./RoomBookingForm";
 
-default export class Rooms extends React.PureComponent{
+export class Rooms extends React.PureComponent{
     constructor(props) {
         super(props);
         this.state = {
@@ -16,7 +18,7 @@ default export class Rooms extends React.PureComponent{
     }
 
     handleChange = ({target: {value, id}}) => {
-        console.log('target', target)
+        console.log('target', {value, id})
         this.setState({
             [id]: value,
         })
