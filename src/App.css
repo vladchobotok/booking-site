@@ -22,6 +22,16 @@
   height: min-content;
 }
 
+.room1-button-row{
+  background: black;
+  padding: 10px;
+  margin: 8px;
+  width: max-content;
+  height: min-content;
+  display: flex;
+  flex-direction: row;
+}
+
 .room2 {
   background: black;
   padding: 8px;

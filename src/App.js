@@ -1,89 +1,62 @@
 import React from "react";
 import './App.css';
-
-const Form = ({open}) => {
-    if(open)
-    {
-        return (
-            <div>
-                <form className="forms">
-                    <label>
-                        Name:
-                        <input type="text" name="name"/>
-                    </label>
-                    <label>
-                        Phone:
-                        <input type="tel" name="phone"/>
-                    </label>
-                    <label>
-                        Start time of booking:
-                        <input type="datetime-local" name="startTimeOfBooking"/>
-                    </label>
-                    <label>
-                        End time of booking:
-                        <input type="datetime-local" name="endTimeOfBooking"/>
-                    </label>
-                    <input type="submit" value="Send"/>
-                </form>
-            </div>
-        );
-    }
-    return null;
-}
+import * as roomsConstants from './dictionary/roomsConstants';
+import * as bookingInfo from './dictionary/bookingInfoForm';
+import firebase from 'firebase';
 
 class Rooms extends React.Component{
-
     constructor(props) {
         super(props);
         this.state = {
-            buttons: Array(6).fill(false)
+            tableFormsState: Array(6).fill(false),
+            selectedTable: 0,
+            name: '',
+            phone: '',
+            startTimeOfBooking: '',
+            endTimeOfBooking: '',
         };
     }
 
+    handleChange = ({target: {value, id}}) => {
+        this.setState({
+            [id]: value,
+        })
+    }
+
+    handleSubmit = () => {
+        const {name, phone, startTimeOfBooking, endTimeOfBooking} = this.state;
+        const db = firebase.database();
+        db.ref(name).push(phone);
+        db.ref(name).push(startTimeOfBooking, endTimeOfBooking);
+}
+
     handleClick = (id) => {
-        let buttons = this.state.buttons.slice();
+        this.setState({selectedTable: id});
+        let buttons = this.state.tableFormsState.slice();
         buttons[id-1] = !buttons[id-1];
-        this.setState({buttons});
+        this.setState({tableFormsState: buttons});
     }
 
     MakeButton = (id) => {
-        let buttonText;
-        switch (id) {
-            case 1:
-            case 2:
-            case 3:
-                buttonText = "Table " + id;
-                break;
-            case 4:
-                buttonText = "Table " + id + ", minimum booking time - 1 hour";
-                break;
-            case 5:
-                buttonText = "Working room for 5-6 persons. You can book only the whole room, minimum booking time - 1 day";
-                break;
-            case 6:
-                buttonText = "Conference room. Projector is included with the room. 20 guests allowed. Minimum booking time - 2 hours, then - +hour";
-                break;
-            default:
-                buttonText = "Table " + id;
-        }
         return (
             <div>
-                <input type="button" value={buttonText} onClick={() => this.handleClick(id)}/>
-                <Form open={this.state.buttons[id-1]}/>
+                <input type="button" value={roomsConstants.DICT_ROOMS[id-1].title} onClick={() => this.handleClick(id)}/>
+                <bookingInfo.Form open={this.state.tableFormsState[id-1]}/>
             </div>
         );
     }
 
     render(){
+        console.log(this.state);
         return(
             <div>
                 <div className="room1">
                     <h5>Room 1</h5>
-                    <div className="room1-button-row1">
+                    <div className="room1-button-row">
                         {this.MakeButton(1)}
                         {this.MakeButton(2)}
                     </div>
-                    <div className="room1-button-row2">
+                    <div className="room1-button-row">
                         {this.MakeButton(3)}
                         {this.MakeButton(4)}
                     </div>
@@ -102,6 +75,10 @@ class Rooms extends React.Component{
 }
 
 class App extends React.Component{
+    componentDidMount() {
+        const db = firebase.database();
+        console.log(db)
+    }
 
     render() {
         return (
