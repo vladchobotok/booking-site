@@ -12,6 +12,16 @@
   color: #61dafb;
 }
 
+.welcome {
+  background: black;
+  padding: 10px;
+  border: 1px solid chocolate;
+  border-radius: 8px;
+  margin: 8px;
+  width: max-content;
+  height: min-content;
+}
+
 .room1 {
   background: black;
   padding: 10px;
@@ -56,10 +66,10 @@
   padding: 10px;
   border: 1px solid chocolate;
   border-radius: 8px;
-  margin: 8px;
   width: max-content;
   height: min-content;
   display: flex;
   flex-direction: column;
   font-size: 15px;
+  margin: auto;
 }
