@@ -38,8 +38,7 @@ export class RoomBookingForm extends React.PureComponent{
                                 onChange={handleChange}/>
                         </label>
                         <input
-                            type="submit"
-                            value="Send"/>
+                            type="submit"/>
                     </form>
                 </div>
             );
