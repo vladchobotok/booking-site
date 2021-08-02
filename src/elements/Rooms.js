@@ -24,7 +24,7 @@ export class Rooms extends React.PureComponent {
         })
     }
 
-    handleSubmit = (event) => {
+    handleSubmit = async (event) => {
         event.preventDefault();
 
         try {
@@ -35,40 +35,41 @@ export class Rooms extends React.PureComponent {
                 return false
             }
 
-            console.log("Is this time already taken?: " + isTimeTaken);
+            console.log("Is this time already taken? currentState: " + isTimeTaken);
 
-            firebase.database().ref().child('booking/table_' + selectedTable + "/").once("child_added").then( function(snapshot) {
-                snapshot.forEach(function(data) {
-                    if(data.child(startTimeOfBooking).exists()){
-                        this.setState({isTimeTaken: true});
-                        alert("lala");
-                    }
-                    if(data.val().startTimeOfBooking <= startTimeOfBooking && data.val().endTimeOfBooking > startTimeOfBooking ){
-                        this.setState({isTimeTaken: true});
-                        alert("yayaya");
-                    }
-                }.bind(this));
-            }.bind(this));
+            const checkResult = await new Promise(resolve => {
+                firebase.database().ref().child('booking/table_' + selectedTable + "/").once("child_added").then(function (snapshot) {
+                    snapshot.forEach((data) => {
+                        if (data.child(startTimeOfBooking).exists()) {
+                            resolve({isTimeTaken: true, reason: 'startIsTaken'})
+                        }
+                        if (data.val().startTimeOfBooking <= startTimeOfBooking && data.val().endTimeOfBooking > startTimeOfBooking) {
+                            resolve({isTimeTaken: true, reason: 'endIsTaken'});
+                        }
+                    })
+                    resolve({isTimeTaken: false})
+                })
+            })
 
-            console.log("Is this time already taken?: " + isTimeTaken);
-
-            if(isTimeTaken){
+            if(checkResult.isTimeTaken){
+                this.setState(checkResult)
                 alert('This time is already taken!')
                 return false;
             }
-            else{
-                firebase.database().ref('booking/table_' + selectedTable + '/' + startTimeOfBooking).push({
+
+            firebase.database().ref('booking/table_' + selectedTable + '/' + startTimeOfBooking).push({
                     name,
                     phone,
                     startTimeOfBooking,
                     endTimeOfBooking
-                })
+            })
 
-                let ref = firebase.database().ref('booking/table_' + selectedTable + '/' + startTimeOfBooking);
-                ref.once("value").then(function(snapshot) {
+            let ref = firebase.database().ref('booking/table_' + selectedTable + '/' + startTimeOfBooking);
+            ref.once("value").then(function(snapshot) {
                     console.log("Number of children in db: " + snapshot.numChildren());
-                });
-            }
+            });
+
+            this.setState(checkResult)
 
         } catch (e) {
             console.error(e)
@@ -139,7 +140,6 @@ export class Rooms extends React.PureComponent {
     }
 
     render() {
-        console.log(this.state);
         const {isAccountCreated, email} = this.state;
         return (
             <div>
